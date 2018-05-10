@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Rating = require("../models/rating");
-
+const Food = require("../models/food");
 //food id
 router.get("/:id", async (req, res) => {
   let foodRatings = await Rating.find({
@@ -27,6 +27,11 @@ router.post("/:id", async (req, res) => {
   let newRating = new Rating(body);
   try {
     let createdRating = await newRating.save();
+    let updatedFood = await Food.findByIdAndUpdate(body.food, {
+      $push: {
+        customerRatings: createdRating._id
+      }
+    });
     res.json(createdRating);
   } catch (err) {
     res.send(400, 'Internal error');
