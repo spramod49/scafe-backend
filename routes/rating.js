@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Rating = require("../models/rating");
 const Food = require("../models/food");
+
 //food id
 router.get("/:id", async (req, res) => {
   let foodRatings = await Rating.find({
